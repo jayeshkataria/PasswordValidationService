@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+						http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+	<!--
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    	<property name="location">
+        	<value>App.properties</value>
+    	</property>
+	</bean>
+	-->
+	
+	<bean id="LowerCaseAndNumbersOnlyRule" class="com.jk.passwordvalidationservice.rules.LowerCaseAndNumbersOnly" />
+
+	<bean id="AtleastOneNumberAndLowerCaseLetterRule" class="com.jk.passwordvalidationservice.rules.AtleastOneNumberAndLowerCaseLetter" />
+
+	<!-- Calling the 5 - 12 rule default. Other rules can then be created in the future if necessary -->
+	<bean id="LengthBetweenRangeInclusiveDefaultRule" class="com.jk.passwordvalidationservice.rules.LengthBetweenRangeInclusive">
+		<constructor-arg index="0" value="5" />
+		<constructor-arg index="1" value="12" />
+	</bean>
+
+	<bean id="NoRepeatingCharacterSequencesRule" class="com.jk.passwordvalidationservice.rules.NoRepeatingCharacterSequences" />
+	
+	<util:list id="PasswordValidationDefaultRuleList" value-type="com.jk.passwordvalidationservice.rules.AbstractValidationRule">
+		<ref local="LowerCaseAndNumbersOnlyRule" />
+		<ref local="AtleastOneNumberAndLowerCaseLetterRule" />
+		<ref local="LengthBetweenRangeInclusiveDefaultRule" />
+		<ref local="NoRepeatingCharacterSequencesRule" />
+	</util:list>
+	
+	<bean id="DefaultPasswordValidator" class="com.jk.passwordvalidationservice.validator.PasswordValidator">
+		<constructor-arg index="0">
+			<ref local="PasswordValidationDefaultRuleList" />
+		</constructor-arg>
+	</bean>
+	
+	<!-- Creating Aliases for Unit Testing -->
+	<alias name="LowerCaseAndNumbersOnlyRule" 				alias="LowerCaseAndNumbersOnlyTest" />
+	<alias name="AtleastOneNumberAndLowerCaseLetterRule" 	alias="AtleastOneNumberAndLowerCaseLetterTest" />
+	<alias name="LengthBetweenRangeInclusiveDefaultRule"	alias="LengthBetweenRangeInclusiveTest" />
+	<alias name="NoRepeatingCharacterSequencesRule" 		alias="NoRepeatingCharacterSequencesTest" />
+	<alias name="DefaultPasswordValidator" 					alias="PasswordValidatorTest" />
+	
+</beans> 
