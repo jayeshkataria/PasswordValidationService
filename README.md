@@ -61,4 +61,4 @@ These 4 rules need to be run together on the password to satisfy the validation 
 	I've setup the project in this manner based on the requirement and also to ensure that as much of the configuration as possible can be customized by changing beans.xml.
 
 
-3. The JUnit tests are sitting in ./src/test/java. All the rules have been individually tested and are passing at the time of writing this email. There are 54 tests in all, across the 4 rules and the Valdator. 
+3. The JUnit tests are sitting in ./src/test/java. There are 54 tests in all, across the 4 rules and the Validator. 
